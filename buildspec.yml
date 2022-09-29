@@ -38,6 +38,12 @@ phases:
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
         - echo `ls -l`
+
+        # install python and pip dependencies in a Linux t2.medium
+        - python3 -m pip install --upgrade pip
+        - python3 -m pip install -r requirements.txt
+        # & run unittests
+        - python3 -m pytest test_main.py
   build:
     commands:
       - docker build --tag $REPOSITORY_URI:$TAG .
@@ -52,6 +58,8 @@ phases:
       - printf '[{"name":"simple_jwt_api","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
 artifacts:
   files: build.json
+
+# read JWT secret from AWS Parameter Store
 env:
   parameter-store:         
     JWT_SECRET: JWT_SECRET
