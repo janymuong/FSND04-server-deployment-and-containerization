@@ -1,4 +1,4 @@
-# Use the `python:3.7` as a source image from the Amazon ECR Public Gallery
+# Use the `python:3.7` as a source image from the Amazon ECR Public Gallery or from python:stretch
 # We are not using `python:3.7.2-slim` from Dockerhub because it has put a  pull rate limit. 
 FROM python:stretch
 
